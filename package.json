@@ -1,0 +1,26 @@
+{
+  "name": "advanceplaywrightframework3x",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "report:open": "node -e \"require('child_process').exec(process.platform==='darwin'?'open tta-report/index.html':process.platform==='win32'?'start tta-report/index.html':'xdg-open tta-report/index.html')\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@faker-js/faker": "^10.6.0",
+    "@playwright/test": "^1.65.0",
+    "@types/node": "^26.6.6",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
+    "allure-playwright": "^3.14.0",
+    "csv-parse": "^7.0.3",
+    "dotenv": "^18.0.10",
+    "jsonpath-plus": "^10.4.0",
+    "winston": "^3.19.0",
+    "xlsx": "^0.18.5"
+  }
+}
