@@ -1,25 +1,33 @@
-import { Page } from '@playwright/test';
-import winston from 'winston';
-import { createLogger } from '../utils/logger';
-import { ElementActions } from '../utils/elementActions';
-
 /**
- * Shared base for every page object: a named logger, a locator-action
- * helper (this.el) and a goto() that resolves against playwright.config's
- * baseURL.
+ * BasePage - shared scaffolding for every TTACart Page Object.
+ *
+ * The TTACart suite is intentionally thin. We only inherit:
+ *  - `page`     -> Playwright Page handle
+ *  - `el`       -> UtilElementLocator wrapper for actions
+ *  - `log`      -> a per-page Logger (scope = the subclass name)
+ *  - `goto(p)`  -> small navigation helper that respects baseURL
+ *
+ * Subclasses still declare their own `private readonly` Locator fields; the
+ * base class deliberately does NOT pre-build any locators.
  */
-export abstract class BasePage {
-    protected readonly page: Page;
-    protected readonly log: winston.Logger;
-    protected readonly el: ElementActions;
 
-    constructor(page: Page, name: string) {
+import { Page } from '@playwright/test';
+import { UtilElementLocator } from '@utils/UtilElementLocator';
+import { createLogger, type Logger } from '@utils/logger';
+
+export abstract class BasePage{
+    protected readonly page: Page;
+    protected readonly el: UtilElementLocator;
+    protected readonly log: Logger;
+
+       protected constructor(page: Page, scope: string) {
         this.page = page;
-        this.log = createLogger(name);
-        this.el = new ElementActions(this.log);
+        this.el = new UtilElementLocator(page, scope);
+        this.log = createLogger(scope);
     }
 
-    protected async goto(path: string): Promise<void> {
-        await this.page.goto(path);
+     protected async goto(relativePath: string): Promise<void> {
+        await this.page.goto(relativePath);
+        await this.page.waitForLoadState('domcontentloaded');
     }
 }

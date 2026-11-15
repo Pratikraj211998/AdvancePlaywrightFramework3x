@@ -10,3 +10,10 @@ node_modules/
 /playwright/.auth/
 /tta-report/
 /reports/
+/allure-results/
+/allure-report/
+# macOS
+.DS_Store
+
+# Logs (src/utils/logger.ts)
+/logs/
